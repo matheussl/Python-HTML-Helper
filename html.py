@@ -7,43 +7,41 @@ This file is part of the Python HTML Helper project
 
 """
 
-__all__ = [
-    'DIV'
-]
 
-__scape__ = {
-    '<':'&lt;',
-    '>':'&gt;',
-}
-
-class Tag:
+class TAG:
     """
     Generic html tag.
     """
-
+    name = 'tag'
     attr = []
-    content = []
+    nodes = []
 
     def __init__(self, *args, **kwargs):
         for arg in args:
-            self.content.append(arg)
+            self.nodes.append(arg)
         for kwarg in kwargs:
             self.attr.append(kwarg)
 
     def __xml__():
         pass
 
-    def __str__():
+    def __str__(self):
+        result = ['<', self.name, '>']
+        nodes = self.__getnodes__()
+        for node in nodes:
+            result.append('\n    ')
+            result.append(node.__str__())
+        result.extend(['\n','</', self.name, '>'])
+        return ''.join(result)
+
+    def __getitem__(self):
         pass
 
-    def __getitem__():
+    def __getattr__(self):
         pass
 
-    def __getattr__():
-        pass
-
-    def __getcontent__():
-        pass
+    def __getnodes__(self):
+        return self.nodes
 
 
 
@@ -51,4 +49,5 @@ class Tag:
 
 
 if __name__ == '__main__':
-    tag = Tag('a', 'b')
+    tag = TAG('a', 'b')
+    print tag.__str__()
